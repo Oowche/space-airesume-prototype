@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* Figma → Tailwind: layout token used across generated markup */
+.content-stretch {
+  align-content: stretch;
+}
+
+/* YS Text — подключены Regular / Medium / Bold из public/fonts (одно семейство, разные font-weight) */
+@font-face {
+  font-family: "YS Text";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/YS-Text-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "YS Text";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/YS-Text-Medium.ttf") format("truetype");
+}
+
+/* 600 в Tailwind (font-semibold) — в макете часто соответствует Medium */
+@font-face {
+  font-family: "YS Text";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/YS-Text-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "YS Text";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/YS-Text-Bold.ttf") format("truetype");
+}
+
+@theme {
+  --font-sans:
+    "YS Text", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+/* Переменные из макета Figma → одно семейство, вес задаётся отдельно */
+:root {
+  --hr-font-family: "YS Text", ui-sans-serif, sans-serif;
+  --hr-font-family-default: "YS Text", ui-sans-serif, sans-serif;
+  --hr-font-family-alt: "YS Text", ui-sans-serif, sans-serif;
+  /* для старых классов из Figma; вес задаём утилитами font-normal / font-medium, не font shorthand */
+  --hr-font-weight-regular: 400;
+  --hr-font-weight-medium: 500;
+}
+
+html {
+  font-family: var(--hr-font-family);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body,
+#root {
+  font-family: inherit;
+}
+
+b,
+strong {
+  font-weight: 700;
+}
