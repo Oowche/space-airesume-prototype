@@ -24,8 +24,6 @@ export default function PrototypeApp() {
   const [active, setActive] = useState<ScreenId>(() =>
     typeof window !== "undefined" ? parseScreenFromHash() : "apply",
   );
-  /** Для `#apply-with-resume`: из редактора передаём «О себе»; `undefined` — демо при открытии из меню */
-  const [resumeAboutForApplyCard, setResumeAboutForApplyCard] = useState<string | null | undefined>(undefined);
   /** Форма отклика — общая для `#apply` и `#apply-with-resume`, сохраняется через генерацию резюме */
   const [applyDraft, setApplyDraft] = useState(() => createInitialApplyDraft());
 
@@ -44,36 +42,24 @@ export default function PrototypeApp() {
     }
   };
 
-  const selectScreen = useCallback((id: ScreenId, opts?: { resumeAboutFromEditor?: string | null }) => {
-    if (id === "apply-with-resume") {
-      if (opts && "resumeAboutFromEditor" in opts) {
-        const v = opts.resumeAboutFromEditor;
-        setResumeAboutForApplyCard(
-          v === null || v === undefined ? null : v.trim() === "" ? null : v.trim(),
-        );
-      } else {
-        setResumeAboutForApplyCard(undefined);
-        setApplyDraft((d) => ({
-          ...d,
-          portfolioLink: d.portfolioLink.trim() ? d.portfolioLink : APPLY_WITH_RESUME_PORTFOLIO_DEFAULT,
-          resumeFileRowVisible: true,
-        }));
-      }
+  const selectScreen = useCallback((id: ScreenId, opts?: { fromResumeEditorSave?: boolean }) => {
+    if (id === "apply-with-resume" && !opts?.fromResumeEditorSave) {
+      setApplyDraft((d) => ({
+        ...d,
+        portfolioLink: d.portfolioLink.trim() ? d.portfolioLink : APPLY_WITH_RESUME_PORTFOLIO_DEFAULT,
+        resumeFileRowVisible: true,
+      }));
     }
     setActive(id);
     window.location.hash = id;
   }, []);
 
-  const handleSaveEditorAndGoToApplyWithResume = useCallback(
-    (aboutTextForCard: string | null) => {
-      setApplyDraft((d) => ({ ...d, resumeFileRowVisible: true }));
-      selectScreen("apply-with-resume", { resumeAboutFromEditor: aboutTextForCard });
-    },
-    [selectScreen],
-  );
+  const handleSaveEditorAndGoToApplyWithResume = useCallback(() => {
+    setApplyDraft((d) => ({ ...d, resumeFileRowVisible: true }));
+    selectScreen("apply-with-resume", { fromResumeEditorSave: true });
+  }, [selectScreen]);
 
   const handleDiscardEditorAndGoToApply = useCallback(() => {
-    setResumeAboutForApplyCard(undefined);
     setApplyDraft((d) => ({ ...d, resumeFileRowVisible: false }));
     selectScreen("apply");
   }, [selectScreen]);
@@ -143,7 +129,6 @@ export default function PrototypeApp() {
             draft={applyDraft}
             setDraft={setApplyDraft}
             withResumeAttached
-            resumeAboutInCard={resumeAboutForApplyCard}
             onGenerateWithTeamAI={startGenerateWithTeamAIFlow}
           />
         )}

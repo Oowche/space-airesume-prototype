@@ -1,4 +1,5 @@
 import SpaceLogotype from "../components/SpaceLogotype";
+import { RESUME_DRAFT_PAGE_SUBTITLE } from "../resumeDraftCopy";
 
 const imgImage = "https://www.figma.com/api/mcp/asset/68168bde-57f2-415e-8404-33ff7e57a0c4";
 const imgVector = "https://www.figma.com/api/mcp/asset/bd1cf65c-efc7-4c22-8db3-798125289681";
@@ -312,11 +313,7 @@ export default function ResumeGeneratingPage() {
             data-node-id="3352:16527"
             style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
           >
-            <p className="leading-[var(--hr-line-height-body-s,20px)]">
-              {
-                "Отредактируйте резюме на\u00A0этой странице: мы соберём из\u00A0него PDF-файл и\u00A0приложим его к\u00A0отклику, чтобы рекрутер и\u00A0нанимающий менеджер могли лучше вас узнать"
-              }
-            </p>
+            <p className="leading-[var(--hr-line-height-body-s,20px)]">{RESUME_DRAFT_PAGE_SUBTITLE}</p>
           </div>
         </div>
       </div>

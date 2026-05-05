@@ -1,10 +1,96 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import GradePerformanceMarks from "./GradePerformanceMarks";
 
 const ABOUT_MAX_CHARS = 280;
 /** Тонкий пробел вокруг слэша в каунтере (как в макетах) */
 const THIN = "\u2009";
+
+/** Первая опция селекта «Управление командами» — в синей карточке резюме не показываем */
+export const TEAM_MANAGEMENT_NONE_LABEL = "Не управляет командой";
+
+const TEAM_MANAGEMENT_OPTIONS = [
+  TEAM_MANAGEMENT_NONE_LABEL,
+  "Линейный руководитель",
+  "Мидл-руководитель",
+  "C-level-руководитель",
+] as const;
+
+function normalizeTeamManagementValue(raw: string): string {
+  const t = raw.trim();
+  if ((TEAM_MANAGEMENT_OPTIONS as readonly string[]).includes(t)) return t;
+  return "Линейный руководитель";
+}
+
+function ChevronDown({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TeamManagementSelect({
+  value,
+  onChange,
+  id,
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  id: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  return (
+    <div className="relative w-full" ref={rootRef}>
+      <button
+        id={id}
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        className="flex min-h-[40px] w-full cursor-pointer items-center justify-between gap-2 rounded-[var(--hr-control-border-radius,12px)] border border-solid border-[var(--hr-control-color-border,rgba(0,0,0,0.12))] bg-[var(--hr-control-color-background,rgba(255,255,255,0))] px-3 py-[var(--hr-control-space-text,10px)] text-left font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] text-[rgba(0,0,0,0.88)] outline-none [font-feature-settings:'lnum'_1,'pnum'_1] hover:border-[rgba(0,0,0,0.2)]"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="min-w-0 flex-1 truncate">{value}</span>
+        <ChevronDown className="size-4 shrink-0 text-[rgba(0,0,0,0.45)]" />
+      </button>
+      {open ? (
+        <ul
+          role="listbox"
+          aria-labelledby={id}
+          className="absolute left-0 right-0 top-[calc(100%+4px)] z-[20] flex max-h-[min(320px,calc(100dvh-120px))] flex-col gap-[var(--hr-space-2-xs,4px)] overflow-y-auto rounded-[var(--hr-control-border-radius-outer,16px)] bg-[var(--hr-color-surface-200,white)] p-[var(--hr-space-2-xs,4px)] shadow-[0px_0px_0.5px_var(--hr-effect-shadow,rgba(0,0,0,0.12)),0px_4px_6px_var(--hr-effect-shadow,rgba(0,0,0,0.12))]"
+        >
+          {TEAM_MANAGEMENT_OPTIONS.map((opt) => (
+            <li key={opt} role="option" aria-selected={opt === value}>
+              <button
+                type="button"
+                className={`w-full rounded-[var(--hr-control-border-radius-inner,8px)] px-3 py-2 text-left font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] [font-feature-settings:'lnum'_1,'pnum'_1] ${
+                  opt === value ? "bg-black/[0.06] text-[rgba(0,0,0,0.88)]" : "text-[rgba(0,0,0,0.88)] hover:bg-black/[0.04]"
+                }`}
+                onClick={() => {
+                  onChange(opt);
+                  setOpen(false);
+                }}
+              >
+                {opt}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
 
 export type GeneralInfoSnapshot = {
   positionTitle: string;
@@ -30,6 +116,7 @@ function IconClose({ className }: { className?: string }) {
 /** Figma: ni019tIFEDibMqnuKM005o · node 3352:16583 «Общая информация» — тот же каркас, что «Личные данные» */
 export default function GeneralInfoDrawer({ open, onClose, saved, onSave }: GeneralInfoDrawerProps) {
   const titleId = useId();
+  const teamFieldId = useId();
   const [draft, setDraft] = useState<GeneralInfoSnapshot>(saved);
 
   useEffect(() => {
@@ -37,6 +124,7 @@ export default function GeneralInfoDrawer({ open, onClose, saved, onSave }: Gene
       setDraft({
         ...saved,
         aboutText: saved.aboutText.slice(0, ABOUT_MAX_CHARS),
+        roleSubtitle: normalizeTeamManagementValue(saved.roleSubtitle),
       });
     }
   }, [open, saved]);
@@ -117,16 +205,17 @@ export default function GeneralInfoDrawer({ open, onClose, saved, onSave }: Gene
             </div>
 
             <div className="flex flex-col gap-[var(--hr-space-xs,8px)]">
-              <label className="font-sans text-[14px] font-medium leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
+              <label
+                htmlFor={teamFieldId}
+                className="font-sans text-[14px] font-medium leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]"
+                style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
+              >
                 Управление командами<span className="text-[color:var(--hr-color-special-error,#da4e4e)]"> *</span>
               </label>
-              <input
-                type="text"
+              <TeamManagementSelect
+                id={teamFieldId}
                 value={draft.roleSubtitle}
-                onChange={(e) => setDraft((d) => ({ ...d, roleSubtitle: e.target.value }))}
-                className="min-h-[40px] w-full rounded-[var(--hr-control-border-radius,12px)] border border-solid border-[var(--hr-control-color-border,rgba(0,0,0,0.12))] bg-[var(--hr-control-color-background,rgba(255,255,255,0))] px-3 py-[var(--hr-control-space-text,10px)] font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] text-[rgba(0,0,0,0.88)] outline-none [font-feature-settings:'lnum'_1,'pnum'_1] placeholder:text-[var(--hr-color-text-tertiary,rgba(0,0,0,0.4))]"
-                placeholder="Например, линейный руководитель"
-                autoComplete="off"
+                onChange={(next) => setDraft((d) => ({ ...d, roleSubtitle: next }))}
               />
             </div>
 

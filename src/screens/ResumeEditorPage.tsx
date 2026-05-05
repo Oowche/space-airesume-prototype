@@ -1,7 +1,8 @@
 /** Figma: ni019tIFEDibMqnuKM005o · node 3352:16528 «Черновик резюме · редактор» */
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import GeneralInfoDrawer, { type GeneralInfoSnapshot } from "./GeneralInfoDrawer";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import GeneralInfoDrawer, { TEAM_MANAGEMENT_NONE_LABEL, type GeneralInfoSnapshot } from "./GeneralInfoDrawer";
+import { RESUME_DRAFT_PAGE_SUBTITLE } from "../resumeDraftCopy";
 import GradePerformanceMarks from "./GradePerformanceMarks";
 import PersonalDataDrawer from "./PersonalDataDrawer";
 import {
@@ -34,7 +35,6 @@ const imgAfter1 = "https://www.figma.com/api/mcp/asset/2212a2dc-23d2-4a22-83e3-5
 const imgHeaderIconSun = "https://www.figma.com/api/mcp/asset/264002f8-3ddc-4bb9-8734-f39dd5aa8508";
 const imgHeaderIconBell = "https://www.figma.com/api/mcp/asset/63b63264-d97a-4e46-9191-2603576b2c89";
 const imgHeaderIconPlane = "https://www.figma.com/api/mcp/asset/ca6760e7-2927-4c77-a456-51003a6dbb5e";
-const imgSpace = "https://www.figma.com/api/mcp/asset/80678005-0d83-40b8-94bc-146b0eb481df";
 
 function IconEdit({ className }: { className?: string }) {
   return (
@@ -65,6 +65,102 @@ function IconDownload({ className }: { className?: string }) {
   );
 }
 
+function IconClose({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Figma 3374:8402 — подтверждение перед сохранением и переходом к отклику */
+function SaveResumeConfirmModal({
+  open,
+  onCancel,
+  onConfirm,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  const titleId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onCancel();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onCancel]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-[var(--hr-space-m,16px)]" data-node-id="3374:8402">
+      <button type="button" className="absolute inset-0 bg-black/[0.75]" aria-label="Закрыть" onClick={onCancel} />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="relative z-[201] w-full max-w-[600px] rounded-[var(--hr-border-radius-l,20px)] bg-[var(--hr-color-surface-100,white)] p-[var(--hr-space-xl,24px)] shadow-[0px_0px_1px_0px_var(--hr-effect-shadow,rgba(0,0,0,0.12)),0px_4px_12px_0px_var(--hr-effect-shadow,rgba(0,0,0,0.12))]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-[var(--hr-control-border-radius-inner,6px)] text-[rgba(0,0,0,0.55)] hover:bg-black/[0.04]"
+          aria-label="Закрыть"
+          onClick={onCancel}
+        >
+          <IconClose className="size-4" />
+        </button>
+        <div className="flex flex-col gap-[var(--hr-space-xl,24px)] pr-8">
+          <div className="flex flex-col gap-[var(--hr-space-xs,8px)]">
+            <h2
+              id={titleId}
+              className="font-sans text-[length:var(--hr-font-size-title-m,24px)] font-medium leading-[var(--hr-line-height-title-m,28px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]"
+              style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
+            >
+              После сохранения нельзя будет вернуться к&nbsp;редактированию резюме
+            </h2>
+            <p
+              className="font-sans text-[length:var(--hr-font-size-body-m,16px)] font-normal leading-[var(--hr-line-height-body-m,24px)] text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))]"
+              style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
+            >
+              Файл с&nbsp;резюме скачается на&nbsp;ваше устройство, приложим его в&nbsp;отклик
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-end gap-[var(--hr-space-xl,24px)]">
+            <button
+              type="button"
+              className="min-h-[40px] rounded-[var(--hr-border-radius-s,12px)] px-[var(--hr-space-m,16px)] font-sans text-[14px] font-normal leading-[var(--hr-line-height-body-s,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black/[0.04]"
+              onClick={onCancel}
+            >
+              Отмена
+            </button>
+            <button
+              type="button"
+              className="min-h-[40px] rounded-[var(--hr-border-radius-s,12px)] border-0 bg-[rgba(0,0,0,0.88)] px-[var(--hr-space-m,16px)] font-sans text-[14px] font-normal leading-[var(--hr-line-height-body-s,20px)] text-[rgba(255,255,255,0.96)] transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black active:bg-black"
+              onClick={onConfirm}
+            >
+              Сохранить и продолжить
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SecondaryEditButton({ className, onClick }: { className?: string; onClick?: () => void }) {
   return (
     <button
@@ -72,7 +168,7 @@ function SecondaryEditButton({ className, onClick }: { className?: string; onCli
       onClick={onClick}
       className={
         className ??
-        "inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--hr-border-radius-s,12px)] border border-solid border-[var(--hr-control-color-border,rgba(0,0,0,0.12))] bg-[var(--hr-control-color-background,rgba(255,255,255,0))] px-3 py-2 font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black/[0.04] active:bg-black/[0.06]"
+        "inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--hr-border-radius-s,12px)] border-0 bg-[rgba(0,0,0,0.04)] px-3 py-2 font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] shadow-none transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-[rgba(0,0,0,0.06)] active:bg-[rgba(0,0,0,0.08)]"
       }
     >
       <IconEdit className="size-4 shrink-0 text-[rgba(0,0,0,0.55)]" />
@@ -101,8 +197,8 @@ function ControlUser({ className }: ControlUserProps) {
 }
 
 export type ResumeEditorPageProps = {
-  /** «Сохранить изменения и скачать» → переход на отклик с резюме; `null` если блок «О себе» пуст */
-  onSaveAndDownload?: (aboutTextForApplyCard: string | null) => void;
+  /** «Сохранить изменения и скачать» → переход на отклик с резюме */
+  onSaveAndDownload?: () => void;
   /** «Не сохранять» → вернуться на отклик без прикреплённого резюме */
   onDiscard?: () => void;
 };
@@ -113,6 +209,7 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
   const [personalDrawerOpen, setPersonalDrawerOpen] = useState(false);
   const [generalDrawerOpen, setGeneralDrawerOpen] = useState(false);
   const [workplaceDrawerId, setWorkplaceDrawerId] = useState<string | null>(null);
+  const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
   const [generalInfo, setGeneralInfo] = useState<GeneralInfoSnapshot>(() => ({
     positionTitle: "Разработчик Machine Learning",
     roleSubtitle: "Линейный руководитель",
@@ -261,6 +358,14 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
         onSave={handleSaveWorkplace}
         onDeleteWorkplace={handleDeleteWorkplaceFromDrawer}
       />
+      <SaveResumeConfirmModal
+        open={saveConfirmOpen}
+        onCancel={() => setSaveConfirmOpen(false)}
+        onConfirm={() => {
+          setSaveConfirmOpen(false);
+          onSaveAndDownload?.();
+        }}
+      />
 
       <div
         className="flex w-full shrink-0 items-center justify-center gap-[var(--hr-space-2-xl,32px)] px-[var(--hr-space-2-xl,32px)] py-[var(--hr-space-s,12px)]"
@@ -363,11 +468,7 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
             <p className="leading-[var(--hr-line-height-display-s,36px)] text-[32px]">Черновик резюме</p>
           </div>
           <div className="relative w-[min-content] min-w-full shrink-0 font-sans font-normal text-[length:var(--hr-font-size-body-s,14px)] not-italic" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
-            <p className="leading-[var(--hr-line-height-body-s,20px)]">
-              {
-                "Отредактируйте резюме на\u00A0этой странице: мы соберём из\u00A0него PDF-файл и\u00A0приложим его к\u00A0отклику, чтобы рекрутер и\u00A0нанимающий менеджер могли лучше вас узнать"
-              }
-            </p>
+            <p className="leading-[var(--hr-line-height-body-s,20px)]">{RESUME_DRAFT_PAGE_SUBTITLE}</p>
           </div>
         </div>
 
@@ -416,20 +517,17 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
             className="relative flex w-full min-w-0 max-w-[816px] shrink-0 flex-col items-start gap-[var(--hr-space-2-xl,32px)] overflow-clip rounded-[var(--hr-border-radius-s,12px)] bg-[var(--hr-color-spectre-indigo-100,rgba(100,119,216,0.08))] p-[var(--hr-space-xl,24px)]"
             data-node-id="3352:16536"
           >
-            <div className="pointer-events-none absolute bottom-[-14px] right-[-6.29px] h-[79px] w-[319.292px]">
-              <div className="absolute inset-[0_0_0_-1.03%]">
-                <img alt="" className="block size-full max-w-none" src={imgSpace} />
-              </div>
-            </div>
-            <div className="relative z-[1] flex w-full min-w-0 shrink-0 flex-col gap-[var(--hr-space-m,16px)] items-start">
+            <div className="relative flex w-full min-w-0 shrink-0 flex-col gap-[var(--hr-space-m,16px)] items-start">
               <div className="relative flex w-full min-w-0 shrink-0 items-start gap-[var(--hr-space-m,16px)]">
                 <div className="relative flex min-w-px flex-[1_0_0] flex-col items-start justify-center leading-[0] whitespace-nowrap">
                   <div className="w-full min-w-0 shrink-0 overflow-hidden text-ellipsis font-sans font-medium text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] text-[length:var(--hr-font-size-title-m,24px)] not-italic" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
                     <p className="overflow-hidden text-ellipsis text-[24px] leading-[var(--hr-line-height-title-m,28px)]">{generalInfo.positionTitle}</p>
                   </div>
-                  <div className="w-full min-w-0 shrink-0 overflow-hidden text-ellipsis font-sans font-normal text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))] text-[length:var(--hr-font-size-body-s,14px)] not-italic" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
-                    <p className="overflow-hidden text-ellipsis text-[14px] leading-[var(--hr-line-height-body-s,20px)]">{generalInfo.roleSubtitle}</p>
-                  </div>
+                  {generalInfo.roleSubtitle.trim() && generalInfo.roleSubtitle.trim() !== TEAM_MANAGEMENT_NONE_LABEL ? (
+                    <div className="w-full min-w-0 shrink-0 overflow-hidden text-ellipsis font-sans font-normal text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))] text-[length:var(--hr-font-size-body-s,14px)] not-italic" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
+                      <p className="overflow-hidden text-ellipsis text-[14px] leading-[var(--hr-line-height-body-s,20px)]">{generalInfo.roleSubtitle}</p>
+                    </div>
+                  ) : null}
                 </div>
                 <SecondaryEditButton onClick={openGeneralInfoDrawer} />
               </div>
@@ -441,24 +539,35 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
                   <GradePerformanceMarks />
                 </div>
                 {generalInfo.aboutText.trim() ? (
-                  <div className="relative w-full max-w-full shrink-0 pt-1">
+                  <div className="relative w-full min-w-0 shrink-0 leading-[0]" data-name="О себе · заполнено">
                     <p className="whitespace-pre-wrap font-sans text-[14px] font-normal leading-[var(--hr-line-height-body-s,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
                       {generalInfo.aboutText.trim()}
                     </p>
                   </div>
-                ) : null}
+                ) : (
+                  <div
+                    className="relative flex w-full shrink-0 flex-row gap-[var(--hr-space-xs,8px)] items-start leading-[0]"
+                    data-node-id="I3374:8646;3374:9026"
+                    data-name="О себе"
+                  >
+                    <div
+                      className="relative shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-sans font-medium text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] text-[length:var(--hr-control-font-size,14px)] leading-[var(--hr-control-line-height,20px)] not-italic"
+                      data-node-id="I3374:8646;3374:9020"
+                      style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
+                    >
+                      <p className="overflow-hidden text-ellipsis text-[14px] leading-[var(--hr-control-line-height,20px)]">О себе</p>
+                    </div>
+                    <div
+                      className="relative min-w-px flex-[1_0_0] font-sans font-normal text-[length:var(--hr-font-size-body-s,14px)] leading-[0] text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))]"
+                      data-node-id="I3374:8646;3374:3471"
+                      style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
+                    >
+                      <p className="leading-[var(--hr-line-height-body-s,20px)]">Не заполнено</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-            {!generalInfo.aboutText.trim() ? (
-              <button
-                type="button"
-                className="relative flex shrink-0 cursor-pointer items-center gap-[var(--hr-space-2-xs,4px)] text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))] transition-colors hover:text-[rgba(0,0,0,0.75)]"
-                onClick={openGeneralInfoDrawer}
-              >
-                <IconPlus className="size-4 shrink-0" />
-                <span className="font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] [font-feature-settings:'lnum'_1,'pnum'_1]">{"Добавить раздел О\u00A0себе"}</span>
-              </button>
-            ) : null}
           </div>
 
           <div
@@ -510,10 +619,7 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
             <button
               type="button"
               className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--hr-border-radius-s,12px)] border-0 bg-[rgba(0,0,0,0.88)] px-4 py-2.5 font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] text-white transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black active:bg-black"
-              onClick={() => {
-                const t = generalInfo.aboutText.trim();
-                onSaveAndDownload?.(t.length ? t : null);
-              }}
+              onClick={() => setSaveConfirmOpen(true)}
             >
               <IconDownload className="size-4 shrink-0 text-white" />
               {"Сохранить изменения и\u00A0скачать файл"}

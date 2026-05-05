@@ -21,9 +21,6 @@ const imgAliceFill = "https://www.figma.com/api/mcp/asset/fc89af4a-6928-47bd-a14
 const imgYandexYa = "https://www.figma.com/api/mcp/asset/48246f12-0ac9-4cf7-b01a-b8798c00ad63";
 const imgVector7 = "https://www.figma.com/api/mcp/asset/123bc66e-738f-4078-9a79-7b52d527cca2";
 const imgVector9 = "https://www.figma.com/api/mcp/asset/6fb3e1d5-ec33-416d-b522-6515e017fce3";
-const imgSpace = "https://www.figma.com/api/mcp/asset/2994bedb-3d5f-4638-801d-982a070c1917";
-const imgColor = "https://www.figma.com/api/mcp/asset/60aea194-f7f7-4b77-a29e-ea92fe6bcb7f";
-const imgColor1 = "https://www.figma.com/api/mcp/asset/4e55a507-cce4-46f9-8501-a6099846c058";
 const imgVector10 = "https://www.figma.com/api/mcp/asset/a5602f8f-5f4a-47c5-a305-edcf592ea602";
 const imgColor2 = "https://www.figma.com/api/mcp/asset/dd1bf7e8-35a7-49e1-8a91-eae495c5dcea";
 
@@ -36,10 +33,6 @@ const REASON_OPTIONS = [
 ] as const;
 
 const OTHER_REASON_INDEX = REASON_OPTIONS.length - 1;
-
-/** Текст «О себе» в синей карточке — экран «Отклик · с добавленным резюме» (Figma 3352:16630) */
-const APPLY_WITH_RESUME_ABOUT =
-  "3 года развиваю ML-решения для персонализации и ранжирования. Работаю с полным циклом: от подготовки данных и обучения моделей до продакшн-внедрения и мониторинга. Ищу переход в команду, где можно глубже сфокусироваться на recommendation systems и ML в продукте.";
 
 const APPLY_WITH_RESUME_FILE_NAME =
   "Ротация Дарина Аверьянова (собрано с помощью Я Team AI).pdf";
@@ -135,45 +128,6 @@ function Component({ className }: { className?: string }) {
   );
 }
 
-function Empty({ className }: { className?: string }) {
-  return (
-    <div className={className || "content-stretch flex gap-[var(--hr-control-space-input,8px)] isolate items-center justify-center min-h-[32px] relative"} data-node-id="3352:11753" data-name="Empty / —">
-      <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[2]" data-node-id="3352:11754" data-name="">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-      </div>
-      <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[1]" data-node-id="3352:11755" data-name="">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-      </div>
-    </div>
-  );
-}
-
-function Component1({ className }: { className?: string }) {
-  return (
-    <div className={className || "content-stretch flex gap-[var(--hr-control-space-input,8px)] isolate items-center justify-center min-h-[32px] relative"} data-node-id="1962:2892" data-name="—">
-      <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[2]" data-node-id="1962:2893" data-name="←">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-      </div>
-      <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[1]" data-node-id="1962:2894" data-name="→">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-      </div>
-    </div>
-  );
-}
-
-function Component2({ className }: { className?: string }) {
-  return (
-    <div className={className || "content-stretch flex gap-[var(--hr-control-space-slot,4px)] isolate items-center justify-center min-h-[32px] relative"} data-node-id="1956:2621" data-name="—">
-      <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[2]" data-node-id="1956:2622" data-name="←">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-      </div>
-      <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[1]" data-node-id="1956:2623" data-name="→">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-      </div>
-    </div>
-  );
-}
-
 type ControlUserProps = {
   className?: string;
 };
@@ -194,15 +148,8 @@ type JobApplicationPageProps = {
   setDraft: Dispatch<SetStateAction<ApplyFormDraft>>;
   /** Переход на экран «Черновик резюме · редактор» (кнопка «Сгенерировать с Я Team AI») */
   onGenerateWithTeamAI?: () => void;
-  /** Экран «Отклик с добавленным резюме»: «О себе» в синей карточке, файл вместо серых кнопок */
+  /** Экран «Отклик с добавленным резюме»: прикреплённый файл вместо серых кнопок */
   withResumeAttached?: boolean;
-  /**
-   * Текст «О себе» в синей карточке (только с `withResumeAttached`).
-   * `undefined` — демо-текст (открыли экран из меню прототипа).
-   * `null` или после trim пусто — блок не показывать (из редактора без заполнения).
-   * Строка — данные из редактора.
-   */
-  resumeAboutInCard?: string | null;
 };
 
 export default function JobApplicationPage({
@@ -210,7 +157,6 @@ export default function JobApplicationPage({
   setDraft,
   onGenerateWithTeamAI,
   withResumeAttached = false,
-  resumeAboutInCard,
 }: JobApplicationPageProps) {
   const {
     vacancySearch,
@@ -275,13 +221,6 @@ export default function JobApplicationPage({
     }
     return "Вы откликаетесь открыто для руководителя и HR-партнёра. Мы призовём их в тикет после отправки отклика — отменить это решение не получится";
   }, [hideFromManager, hideFromHr]);
-
-  const blueCardAboutParagraph = useMemo(() => {
-    if (!withResumeAttached) return null;
-    if (resumeAboutInCard === undefined) return APPLY_WITH_RESUME_ABOUT;
-    const t = resumeAboutInCard?.trim();
-    return t ? t : null;
-  }, [withResumeAttached, resumeAboutInCard]);
 
   return (
     <div className="bg-[var(--hr-color-surface-100,white)] content-stretch flex flex-col gap-[var(--hr-space-2-xl,32px)] items-center pb-[80px] relative min-h-screen w-full" data-node-id="3352:16462" data-name="Х">
@@ -549,11 +488,6 @@ export default function JobApplicationPage({
               <p className="leading-[var(--hr-line-height-title-s,24px)] overflow-hidden text-[20px] text-ellipsis">Расскажите о себе</p>
             </div>
             <div className="w-full min-w-0 max-w-full bg-[var(--hr-color-spectre-indigo-100,rgba(100,119,216,0.08))] content-stretch flex flex-col gap-[var(--hr-space-2-xl,32px)] items-start overflow-clip p-[var(--hr-space-xl,24px)] relative rounded-[var(--hr-border-radius-s,12px)]" data-node-id="3352:16504" data-name="Резюме">
-              <div className="absolute bottom-[-14px] h-[79px] right-[-6.29px] w-[319.292px]" data-node-id="I3352:16504;4015:24151" data-name="Space">
-                <div className="absolute inset-[0_0_0_-1.03%]">
-                  <img alt="" className="block max-w-none size-full" src={imgSpace} />
-                </div>
-              </div>
               <div className="content-stretch flex flex-col gap-[var(--hr-space-m,16px)] items-start relative shrink-0 w-full" data-node-id="I3352:16504;4015:24154" data-name="Верхний блок">
                 <div className="content-stretch flex gap-[var(--hr-space-m,16px)] items-start relative shrink-0 w-full" data-node-id="I3352:16504;4015:24735" data-name="Заголовок + Кнопка">
                   <div className="content-stretch flex flex-[1_0_0] flex-col items-start justify-center leading-[0] min-w-px relative whitespace-nowrap" data-node-id="I3352:16504;4015:24736" data-name="Заголовок + Подзаголовок">
@@ -565,102 +499,7 @@ export default function JobApplicationPage({
                     </div>
                   </div>
                 </div>
-                <div className="content-stretch flex flex-col gap-[var(--hr-space-xs,8px)] items-start relative shrink-0 w-full" data-node-id="I3352:16504;4015:24159" data-name="Грейд + Описание">
-                  <div className="content-stretch flex gap-[var(--hr-space-xs,8px)] items-center relative shrink-0" data-node-id="I3352:16504;4015:24160" data-name="Грейд + Перформанс">
-                    <div className="flex flex-col font-sans font-medium justify-center leading-[0] overflow-hidden relative shrink-0 text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] text-[length:var(--hr-font-size-body-m,16px)] text-ellipsis whitespace-nowrap" data-node-id="I3352:16504;4015:24161" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
-                      <p className="leading-[var(--hr-line-height-body-m,24px)] overflow-hidden text-[16px] text-ellipsis">17 грейд</p>
-                    </div>
-                    <div className="content-stretch flex gap-[var(--hr-space-2-xs-compact,2px)] items-center relative shrink-0" data-node-id="I3352:16504;4015:24162" data-name="Перформанс">
-                      <div className="content-stretch flex gap-[var(--hr-space-2-xs,4px)] isolate items-center justify-center relative shrink-0" data-node-id="I3352:16504;4015:24163" data-name="Mark">
-                        <div className="bg-[var(--hr-color-spectre-green-100,rgba(62,163,79,0.08))] content-stretch flex isolate items-center justify-center relative rounded-[var(--hr-control-border-radius-inner,6px)] shrink-0 w-[50px] z-[2]" data-node-id="I3352:16504;4015:24163;54249:3244" data-name="Tag">
-                          <div className="content-stretch flex gap-[var(--hr-control-space-action,8px)] isolate items-center justify-center min-h-[24px] relative shrink-0 z-[3]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641986" data-name="Empty / —">
-                            <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[2]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641986;46913:110412" data-name="">
-                              <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-                            </div>
-                            <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[1]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641986;46913:110413" data-name="">
-                              <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-                            </div>
-                          </div>
-                          <div className="content-stretch flex flex-[1_0_0] flex-col isolate items-start min-w-px py-[var(--hr-control-space-text,2px)] relative z-[2]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641987" data-name="Base">
-                            <div className="flex flex-col font-sans font-normal justify-center leading-[0] overflow-hidden relative shrink-0 text-[color:var(--hr-color-spectre-green-900,#3a8146)] text-[length:var(--hr-control-font-size,14px)] text-center text-ellipsis w-full whitespace-nowrap z-[1]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641988" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
-                              <p className="leading-[var(--hr-control-line-height,20px)] overflow-hidden text-[14px] text-ellipsis">16</p>
-                            </div>
-                          </div>
-                          <div className="content-stretch flex isolate items-center justify-center min-h-[24px] px-[var(--hr-control-space-slot,0px)] relative shrink-0 z-[1]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641989" data-name="Slot →">
-                            <div className="content-stretch flex isolate items-center justify-center min-h-[24px] min-w-[24px] relative shrink-0 z-[1]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641989;48033:216556" data-name="Slot">
-                              <div className="relative shrink-0 size-[16px] z-[1]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641989;48033:216557" data-name="Icon">
-                                <div className="absolute bg-[var(--hr-color-spectre-green-900,#3a8146)] inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px]" data-node-id="I3352:16504;4015:24163;54249:3244;30763:641989;48033:216560" style={{ maskImage: `url('${imgColor}')` }} data-name="← Color" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="content-stretch flex gap-[var(--hr-space-2-xs,4px)] isolate items-center justify-center relative shrink-0" data-node-id="I3352:16504;4015:24164" data-name="Mark">
-                        <div className="bg-[var(--hr-color-spectre-blue-100,rgba(43,149,202,0.08))] content-stretch flex isolate items-center justify-center relative rounded-[var(--hr-control-border-radius-inner,6px)] shrink-0 w-[50px] z-[2]" data-node-id="I3352:16504;4015:24164;54249:3232" data-name="Tag">
-                          <div className="content-stretch flex gap-[var(--hr-control-space-action,8px)] isolate items-center justify-center min-h-[24px] relative shrink-0 z-[3]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641992" data-name="Empty / —">
-                            <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[2]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641992;46913:110412" data-name="">
-                              <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-                            </div>
-                            <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[1]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641992;46913:110413" data-name="">
-                              <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-                            </div>
-                          </div>
-                          <div className="content-stretch flex flex-[1_0_0] flex-col isolate items-start min-w-px py-[var(--hr-control-space-text,2px)] relative z-[2]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641993" data-name="Base">
-                            <div className="flex flex-col font-sans font-normal justify-center leading-[0] overflow-hidden relative shrink-0 text-[color:var(--hr-color-spectre-blue-900,#2b7aa2)] text-[length:var(--hr-control-font-size,14px)] text-center text-ellipsis w-full whitespace-nowrap z-[1]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641994" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
-                              <p className="leading-[var(--hr-control-line-height,20px)] overflow-hidden text-[14px] text-ellipsis">16</p>
-                            </div>
-                          </div>
-                          <div className="content-stretch flex isolate items-center justify-center min-h-[24px] px-[var(--hr-control-space-slot,0px)] relative shrink-0 z-[1]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641995" data-name="Slot →">
-                            <div className="content-stretch flex isolate items-center justify-center min-h-[24px] min-w-[24px] relative shrink-0 z-[1]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641995;48033:216556" data-name="Slot">
-                              <div className="relative shrink-0 size-[16px] z-[1]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641995;48033:216557" data-name="Icon">
-                                <div className="absolute bg-[var(--hr-color-spectre-blue-900,#2b7aa2)] inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px]" data-node-id="I3352:16504;4015:24164;54249:3232;30763:641995;48033:216560" style={{ maskImage: `url('${imgColor1}')` }} data-name="← Color" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="content-stretch flex gap-[var(--hr-space-2-xs,4px)] isolate items-center justify-center relative shrink-0" data-node-id="I3352:16504;4015:24165" data-name="Mark">
-                        <div className="bg-[var(--hr-color-spectre-blue-100,rgba(43,149,202,0.08))] content-stretch flex isolate items-center justify-center relative rounded-[var(--hr-control-border-radius-inner,6px)] shrink-0 w-[50px] z-[2]" data-node-id="I3352:16504;4015:24165;54249:3232" data-name="Tag">
-                          <div className="content-stretch flex gap-[var(--hr-control-space-action,8px)] isolate items-center justify-center min-h-[24px] relative shrink-0 z-[3]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641992" data-name="Empty / —">
-                            <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[2]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641992;46913:110412" data-name="">
-                              <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-                            </div>
-                            <div className="opacity-[var(--opacity\/transparent,1)] relative shrink-0 size-0 z-[1]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641992;46913:110413" data-name="">
-                              <img alt="" className="absolute block inset-0 max-w-none size-full" src={img} />
-                            </div>
-                          </div>
-                          <div className="content-stretch flex flex-[1_0_0] flex-col isolate items-start min-w-px py-[var(--hr-control-space-text,2px)] relative z-[2]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641993" data-name="Base">
-                            <div className="flex flex-col font-sans font-normal justify-center leading-[0] overflow-hidden relative shrink-0 text-[color:var(--hr-color-spectre-blue-900,#2b7aa2)] text-[length:var(--hr-control-font-size,14px)] text-center text-ellipsis w-full whitespace-nowrap z-[1]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641994" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
-                              <p className="leading-[var(--hr-control-line-height,20px)] overflow-hidden text-[14px] text-ellipsis">17</p>
-                            </div>
-                          </div>
-                          <div className="content-stretch flex isolate items-center justify-center min-h-[24px] px-[var(--hr-control-space-slot,0px)] relative shrink-0 z-[1]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641995" data-name="Slot →">
-                            <div className="content-stretch flex isolate items-center justify-center min-h-[24px] min-w-[24px] relative shrink-0 z-[1]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641995;48033:216556" data-name="Slot">
-                              <div className="relative shrink-0 size-[16px] z-[1]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641995;48033:216557" data-name="Icon">
-                                <div className="absolute bg-[var(--hr-color-spectre-blue-900,#2b7aa2)] inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px]" data-node-id="I3352:16504;4015:24165;54249:3232;30763:641995;48033:216560" style={{ maskImage: `url('${imgColor1}')` }} data-name="← Color" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {withResumeAttached && blueCardAboutParagraph ? (
-                    <div
-                      className="relative w-full min-w-0 shrink-0"
-                      data-node-id="I3352:16630;4015:24166"
-                      data-name="О себе (кратко)"
-                    >
-                      <p
-                        className="whitespace-pre-wrap font-sans text-[14px] font-normal leading-[var(--hr-line-height-body-s,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]"
-                        style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
-                      >
-                        {blueCardAboutParagraph}
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
-                <div className="content-stretch flex flex-col gap-[var(--hr-space-s,12px)] items-start relative shrink-0 w-full" data-node-id="I3352:16504;4015:24276" data-name="Резюме + Материалы">
+                <div className="content-stretch flex flex-col gap-[var(--hr-space-m,16px)] items-start relative shrink-0 w-full" data-node-id="I3352:16504;4015:24276" data-name="Резюме + Материалы">
                   <div className="content-stretch flex gap-[var(--hr-space-l,20px)] isolate items-start relative shrink-0 w-full" data-node-id="I3352:16504;4015:24277" data-name="❇️ Form Field">
                     <div className="content-stretch flex flex-[1_0_0] flex-col gap-[var(--hr-space-xs,8px)] isolate items-start min-w-px relative z-[2]" data-node-id="I3352:16504;4015:24277;25662:18600" data-name="Form Field">
                       <div className="content-stretch flex flex-col isolate items-start relative shrink-0 w-full z-[3]" data-node-id="I3352:16504;4015:24277;25662:18600;436:1969" data-name="Label">
@@ -768,7 +607,7 @@ export default function JobApplicationPage({
                   <CheckboxBox checked={wantRecruiterOffers} />
                 </span>
                 <span className="font-sans font-normal text-[14px] leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] [font-feature-settings:'lnum'_1,'pnum'_1]">
-                  Хочу получать предложения о подходящих вакансиях от рекрутеров
+                  Хочу получать от рекрутеров предложения о подходящих вакансиях в Мессенджере
                 </span>
               </button>
             </div>
