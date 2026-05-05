@@ -531,7 +531,13 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
                 </div>
                 <SecondaryEditButton onClick={openGeneralInfoDrawer} />
               </div>
-              <div className="relative flex w-full shrink-0 flex-col gap-[var(--hr-space-xs,8px)] items-start">
+              <div
+                className={`relative flex w-full shrink-0 flex-col items-start ${
+                  generalInfo.aboutText.trim() ? "gap-[8px]" : "gap-[12px]"
+                }`}
+                data-node-id="I3374:8646;3374:3464"
+                data-name="Грейд + Описание"
+              >
                 <div className="relative flex shrink-0 items-center gap-[var(--hr-space-xs,8px)]">
                   <p className="shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-sans font-medium text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] text-[length:var(--hr-font-size-body-m,16px)] leading-[var(--hr-line-height-body-m,24px)] not-italic" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
                     17 грейд
@@ -546,19 +552,19 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
                   </div>
                 ) : (
                   <div
-                    className="relative flex w-full shrink-0 flex-row gap-[var(--hr-space-xs,8px)] items-start leading-[0]"
+                    className="relative flex w-full shrink-0 flex-row gap-[var(--hr-space-2-xs,4px)] items-start leading-[0]"
                     data-node-id="I3374:8646;3374:9026"
                     data-name="О себе"
                   >
                     <div
-                      className="relative shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-sans font-medium text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] text-[length:var(--hr-control-font-size,14px)] leading-[var(--hr-control-line-height,20px)] not-italic"
+                      className="relative shrink-0 overflow-hidden text-ellipsis whitespace-nowrap font-sans font-normal text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))] text-[length:var(--hr-font-size-body-s,14px)] leading-[var(--hr-line-height-body-s,20px)] not-italic"
                       data-node-id="I3374:8646;3374:9020"
                       style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
                     >
-                      <p className="overflow-hidden text-ellipsis text-[14px] leading-[var(--hr-control-line-height,20px)]">О себе</p>
+                      <p className="overflow-hidden text-ellipsis text-[14px] leading-[var(--hr-line-height-body-s,20px)]">О себе</p>
                     </div>
                     <div
-                      className="relative min-w-px flex-[1_0_0] font-sans font-normal text-[length:var(--hr-font-size-body-s,14px)] leading-[0] text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))]"
+                      className="relative min-w-px flex-[1_0_0] font-sans font-normal text-[length:var(--hr-font-size-body-s,14px)] leading-[0] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]"
                       data-node-id="I3374:8646;3374:3471"
                       style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
                     >
