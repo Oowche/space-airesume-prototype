@@ -1,28 +1,23 @@
 import { useCallback, useMemo, type Dispatch, type SetStateAction } from "react";
 
 import type { ApplyFormDraft } from "./applyFormDraft";
+import { ASSETS } from "./assets/images";
 import SpaceLogotype from "./components/SpaceLogotype";
 import { IconTrashAlternative } from "./icons/IconTrashAlternative";
 
-const img = "https://www.figma.com/api/mcp/asset/3b5b0b21-b727-45d8-a705-b5a5d97000aa";
-const imgImage = "https://www.figma.com/api/mcp/asset/269c6a3a-ca60-4f4b-bbf4-40e42c34ab1a";
-const imgVector2 = "https://www.figma.com/api/mcp/asset/de7dc4b1-9afa-40d8-a244-b50426460233";
-const imgBefore = "https://www.figma.com/api/mcp/asset/1bae21c1-11b2-4e53-a43f-b6aa55c15d02";
-const imgAfter = "https://www.figma.com/api/mcp/asset/7399136e-c22e-44d2-9020-58d2420f5d48";
-const imgBefore1 = "https://www.figma.com/api/mcp/asset/1e5222ec-df1b-4ded-8dfa-9040f3a5493f";
-const imgAfter1 = "https://www.figma.com/api/mcp/asset/2212a2dc-23d2-4a22-83e3-5d70e2e69430";
-const imgVector3 = "https://www.figma.com/api/mcp/asset/264002f8-3ddc-4bb9-8734-f39dd5aa8508";
-const imgVector4 = "https://www.figma.com/api/mcp/asset/63b63264-d97a-4e46-9191-2603576b2c89";
-const imgVector5 = "https://www.figma.com/api/mcp/asset/ca6760e7-2927-4c77-a456-51003a6dbb5e";
-const imgVector6 = "https://www.figma.com/api/mcp/asset/2f301891-6282-4cf1-afd3-9be445b2fc64";
-/** Иконки вакансий — фрейм Icons в макете (node 3362:17555); при поломке экспорта обнови через Figma MCP */
-const imgSvcMask16 = "https://www.figma.com/api/mcp/asset/bd18a28e-9a43-4799-baa0-b972b2c5e855";
-const imgAliceFill = "https://www.figma.com/api/mcp/asset/fc89af4a-6928-47bd-a145-1beae730b5f3";
-const imgYandexYa = "https://www.figma.com/api/mcp/asset/48246f12-0ac9-4cf7-b01a-b8798c00ad63";
-const imgVector7 = "https://www.figma.com/api/mcp/asset/123bc66e-738f-4078-9a79-7b52d527cca2";
-const imgVector9 = "https://www.figma.com/api/mcp/asset/6fb3e1d5-ec33-416d-b522-6515e017fce3";
-const imgVector10 = "https://www.figma.com/api/mcp/asset/a5602f8f-5f4a-47c5-a305-edcf592ea602";
-const imgColor2 = "https://www.figma.com/api/mcp/asset/dd1bf7e8-35a7-49e1-8a91-eae495c5dcea";
+const img = ASSETS.tagEmpty;
+const imgImage = ASSETS.avatar;
+const imgVector2 = ASSETS.backArrow;
+const imgBefore = ASSETS.tabBefore;
+const imgAfter = ASSETS.tabAfter;
+const imgBefore1 = ASSETS.tabBeforeInactive;
+const imgAfter1 = ASSETS.tabAfterInactive;
+const imgVector3 = ASSETS.iconSun;
+const imgVector4 = ASSETS.iconBell;
+const imgVector5 = ASSETS.iconPlane;
+const imgSvcMask16 = ASSETS.svcMask16;
+const imgAliceFill = ASSETS.aliceFill;
+const imgYandexYa = ASSETS.yandexYa;
 
 const REASON_OPTIONS = [
   "Хочу сменить проект / продукт",
@@ -38,6 +33,49 @@ const APPLY_WITH_RESUME_FILE_NAME =
   "Ротация Дарина Аверьянова (собрано с помощью Я Team AI).pdf";
 
 const APPLY_WITH_RESUME_PORTFOLIO_DEFAULT = "https://averianovadarina-ml-work.github.io";
+
+function IconInfo({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+      <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" />
+      <path d="M6 5.2V8.2M6 3.6h.01" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconAi({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
+      <path
+        d="M5 .8 5.9 3.4 8.5 4.3 5.9 5.2 5 7.8 4.1 5.2 1.5 4.3 4.1 3.4 5 .8Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
+function IconUpload({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path
+        d="M8 10.5V3M8 3 5.5 5.5M8 3l2.5 2.5M3.5 13h9"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconSearch({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <circle cx="7" cy="7" r="4.25" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M10.2 10.2 13.5 13.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 function IconDownloadSmall({ className }: { className?: string }) {
   return (
@@ -340,10 +378,8 @@ export default function JobApplicationPage({
                 data-name="💠 Input · Search"
               >
                 <div className="content-stretch flex isolate items-center justify-center min-h-[40px] min-w-[40px] relative shrink-0 z-[4]">
-                  <div className="overflow-clip relative shrink-0 size-[16px]">
-                    <div className="absolute inset-[12.5%]">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector6} />
-                    </div>
+                  <div className="overflow-clip relative shrink-0 size-[16px] text-[rgba(0,0,0,0.55)]">
+                    <IconSearch className="absolute inset-[12.5%] size-[75%]" />
                   </div>
                 </div>
                 <input
@@ -447,10 +483,8 @@ export default function JobApplicationPage({
                               <div className="flex flex-col font-sans font-normal justify-center leading-[0] relative shrink-0 text-[color:var(--hr-color-spectre-orange-900,#b56f29)] text-[length:var(--hr-font-size-body-s,14px)] whitespace-nowrap" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>
                                 <p className="leading-[var(--hr-line-height-body-s,20px)]">Только открытая ротация</p>
                               </div>
-                              <div className="overflow-clip relative shrink-0 size-[12px]" data-name="Info">
-                                <div className="absolute inset-[8.33%]" data-name="Vector">
-                                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector9} />
-                                </div>
+                              <div className="overflow-clip relative shrink-0 size-[12px] text-[rgba(0,0,0,0.55)]" data-name="Info">
+                                <IconInfo className="absolute inset-[8.33%] size-[83%]" />
                               </div>
                             </div>
                           </div>
@@ -535,11 +569,7 @@ export default function JobApplicationPage({
                               onClick={() => onGenerateWithTeamAI?.()}
                             >
                               <div className="relative z-[2] flex size-[16px] shrink-0 items-center justify-center overflow-clip rounded-[var(--hr-border-radius-round,100px)] bg-[#f8604a]">
-                                <div className="relative aspect-square w-[10px] overflow-clip">
-                                  <div className="absolute inset-[4.17%_4.18%_4.15%_4.17%]">
-                                    <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgVector10} />
-                                  </div>
-                                </div>
+                                <IconAi className="size-[10px]" />
                               </div>
                               <span className="relative z-[2] py-[var(--hr-control-space-text,10px)] font-sans font-normal text-[14px] leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] [font-feature-settings:'lnum'_1,'pnum'_1]">
                                 Сгенерировать с Я Team AI
@@ -551,11 +581,8 @@ export default function JobApplicationPage({
                               data-node-id="I3352:16504;4015:24277;25662:18600;436:1970;4015:25242"
                               data-name="❇️ Button"
                             >
-                              <div className="relative z-[2] size-[16px] shrink-0">
-                                <div
-                                  className="absolute inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px] bg-[var(--hr-color-text-secondary,rgba(0,0,0,0.6))]"
-                                  style={{ maskImage: `url('${imgColor2}')` }}
-                                />
+                              <div className="relative z-[2] size-[16px] shrink-0 text-[rgba(0,0,0,0.6)]">
+                                <IconUpload className="size-full" />
                               </div>
                               <span className="relative z-[2] py-[var(--hr-control-space-text,10px)] font-sans font-normal text-[14px] leading-[var(--hr-control-line-height,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] [font-feature-settings:'lnum'_1,'pnum'_1]">
                                 Загрузить файл

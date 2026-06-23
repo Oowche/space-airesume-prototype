@@ -24,17 +24,17 @@ import {
   DEFAULT_RESUME_FORMATS,
   WORK_FORMAT_OPTIONS,
 } from "./personalDataConstants";
+import { ASSETS } from "../assets/images";
 import SpaceLogotype from "../components/SpaceLogotype";
 
-/** Те же ассеты, что на `JobApplicationPage` — временные URL Figma MCP быстро протухают */
-const imgImage = "https://www.figma.com/api/mcp/asset/269c6a3a-ca60-4f4b-bbf4-40e42c34ab1a";
-const imgVectorBack = "https://www.figma.com/api/mcp/asset/de7dc4b1-9afa-40d8-a244-b50426460233";
-const imgBefore = "https://www.figma.com/api/mcp/asset/1bae21c1-11b2-4e53-a43f-b6aa55c15d02";
-const imgAfter = "https://www.figma.com/api/mcp/asset/7399136e-c22e-44d2-9020-58d2420f5d48";
-const imgAfter1 = "https://www.figma.com/api/mcp/asset/2212a2dc-23d2-4a22-83e3-5d70e2e69430";
-const imgHeaderIconSun = "https://www.figma.com/api/mcp/asset/264002f8-3ddc-4bb9-8734-f39dd5aa8508";
-const imgHeaderIconBell = "https://www.figma.com/api/mcp/asset/63b63264-d97a-4e46-9191-2603576b2c89";
-const imgHeaderIconPlane = "https://www.figma.com/api/mcp/asset/ca6760e7-2927-4c77-a456-51003a6dbb5e";
+const imgImage = ASSETS.avatar;
+const imgVectorBack = ASSETS.backArrow;
+const imgBefore = ASSETS.tabBefore;
+const imgAfter = ASSETS.tabAfter;
+const imgAfter1 = ASSETS.tabAfterInactive;
+const imgHeaderIconSun = ASSETS.iconSun;
+const imgHeaderIconBell = ASSETS.iconBell;
+const imgHeaderIconPlane = ASSETS.iconPlane;
 
 function IconEdit({ className }: { className?: string }) {
   return (

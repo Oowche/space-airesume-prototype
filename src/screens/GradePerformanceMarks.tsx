@@ -1,8 +1,6 @@
-/** Те же маски и разметка, что на `JobApplicationPage` — узел «Грейд + Перформанс» */
+import { ASSETS } from "../assets/images";
 
-const imgTagEmpty = "https://www.figma.com/api/mcp/asset/3b5b0b21-b727-45d8-a705-b5a5d97000aa";
-const imgPerfPlus = "https://www.figma.com/api/mcp/asset/60aea194-f7f7-4b77-a29e-ea92fe6bcb7f";
-const imgPerfPlusPlus = "https://www.figma.com/api/mcp/asset/4e55a507-cce4-46f9-8501-a6099846c058";
+/** Те же маски и разметка, что на `JobApplicationPage` — узел «Грейд + Перформанс» */
 
 export default function GradePerformanceMarks() {
   return (
@@ -11,10 +9,10 @@ export default function GradePerformanceMarks() {
         <div className="relative z-[2] flex w-[50px] shrink-0 items-center justify-center isolate rounded-[var(--hr-control-border-radius-inner,6px)] bg-[var(--hr-color-spectre-green-100,rgba(62,163,79,0.08))]" data-name="Tag">
           <div className="relative z-[3] flex min-h-[24px] shrink-0 items-center justify-center gap-[var(--hr-control-space-action,8px)] isolate">
             <div className="relative z-[2] size-0 shrink-0 opacity-[var(--opacity\/transparent,1)]">
-              <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgTagEmpty} />
+              <img alt="" className="absolute inset-0 block size-full max-w-none" src={ASSETS.tagEmpty} />
             </div>
             <div className="relative z-[1] size-0 shrink-0 opacity-[var(--opacity\/transparent,1)]">
-              <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgTagEmpty} />
+              <img alt="" className="absolute inset-0 block size-full max-w-none" src={ASSETS.tagEmpty} />
             </div>
           </div>
           <div className="relative z-[2] flex min-w-px flex-[1_0_0] flex-col items-start isolate py-[var(--hr-control-space-text,2px)]">
@@ -27,7 +25,7 @@ export default function GradePerformanceMarks() {
               <div className="relative z-[1] size-[16px] shrink-0">
                 <div
                   className="absolute inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px] bg-[var(--hr-color-spectre-green-900,#3a8146)]"
-                  style={{ maskImage: `url('${imgPerfPlus}')` }}
+                  style={{ maskImage: `url('${ASSETS.perfPlus}')` }}
                 />
               </div>
             </div>
@@ -38,10 +36,10 @@ export default function GradePerformanceMarks() {
         <div className="relative z-[2] flex w-[50px] shrink-0 items-center justify-center isolate rounded-[var(--hr-control-border-radius-inner,6px)] bg-[var(--hr-color-spectre-blue-100,rgba(43,149,202,0.08))]" data-name="Tag">
           <div className="relative z-[3] flex min-h-[24px] shrink-0 items-center justify-center gap-[var(--hr-control-space-action,8px)] isolate">
             <div className="relative z-[2] size-0 shrink-0 opacity-[var(--opacity\/transparent,1)]">
-              <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgTagEmpty} />
+              <img alt="" className="absolute inset-0 block size-full max-w-none" src={ASSETS.tagEmpty} />
             </div>
             <div className="relative z-[1] size-0 shrink-0 opacity-[var(--opacity\/transparent,1)]">
-              <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgTagEmpty} />
+              <img alt="" className="absolute inset-0 block size-full max-w-none" src={ASSETS.tagEmpty} />
             </div>
           </div>
           <div className="relative z-[2] flex min-w-px flex-[1_0_0] flex-col items-start isolate py-[var(--hr-control-space-text,2px)]">
@@ -54,7 +52,7 @@ export default function GradePerformanceMarks() {
               <div className="relative z-[1] size-[16px] shrink-0">
                 <div
                   className="absolute inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px] bg-[var(--hr-color-spectre-blue-900,#2b7aa2)]"
-                  style={{ maskImage: `url('${imgPerfPlusPlus}')` }}
+                  style={{ maskImage: `url('${ASSETS.perfPlusPlus}')` }}
                 />
               </div>
             </div>
@@ -65,10 +63,10 @@ export default function GradePerformanceMarks() {
         <div className="relative z-[2] flex w-[50px] shrink-0 items-center justify-center isolate rounded-[var(--hr-control-border-radius-inner,6px)] bg-[var(--hr-color-spectre-blue-100,rgba(43,149,202,0.08))]" data-name="Tag">
           <div className="relative z-[3] flex min-h-[24px] shrink-0 items-center justify-center gap-[var(--hr-control-space-action,8px)] isolate">
             <div className="relative z-[2] size-0 shrink-0 opacity-[var(--opacity\/transparent,1)]">
-              <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgTagEmpty} />
+              <img alt="" className="absolute inset-0 block size-full max-w-none" src={ASSETS.tagEmpty} />
             </div>
             <div className="relative z-[1] size-0 shrink-0 opacity-[var(--opacity\/transparent,1)]">
-              <img alt="" className="absolute inset-0 block size-full max-w-none" src={imgTagEmpty} />
+              <img alt="" className="absolute inset-0 block size-full max-w-none" src={ASSETS.tagEmpty} />
             </div>
           </div>
           <div className="relative z-[2] flex min-w-px flex-[1_0_0] flex-col items-start isolate py-[var(--hr-control-space-text,2px)]">
@@ -81,7 +79,7 @@ export default function GradePerformanceMarks() {
               <div className="relative z-[1] size-[16px] shrink-0">
                 <div
                   className="absolute inset-0 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[0px_0px] mask-size-[16px_16px] bg-[var(--hr-color-spectre-blue-900,#2b7aa2)]"
-                  style={{ maskImage: `url('${imgPerfPlusPlus}')` }}
+                  style={{ maskImage: `url('${ASSETS.perfPlusPlus}')` }}
                 />
               </div>
             </div>

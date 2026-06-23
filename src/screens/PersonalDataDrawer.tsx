@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 
 /** Как на странице «Отклик» / `JobApplicationPage` (avatar) */
-const imgDrawerAvatar = "https://www.figma.com/api/mcp/asset/269c6a3a-ca60-4f4b-bbf4-40e42c34ab1a";
+import { ASSETS } from "../assets/images";
 
 function IconClose({ className }: { className?: string }) {
   return (
@@ -226,7 +226,7 @@ export default function PersonalDataDrawer({
           <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-[var(--hr-space-xl,24px)] pb-4">
             <div className="flex items-center gap-2">
               <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-[var(--hr-color-surface-100,white)]">
-                <img alt="" className="pointer-events-none absolute inset-0 size-full object-cover" src={imgDrawerAvatar} />
+                <img alt="" className="pointer-events-none absolute inset-0 size-full object-cover" src={ASSETS.avatar} />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="font-sans text-[length:var(--hr-font-size-body-l,18px)] font-medium leading-[var(--hr-line-height-body-l-compact,22px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]" style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}>

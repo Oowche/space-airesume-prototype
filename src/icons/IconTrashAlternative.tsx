@@ -1,6 +1,4 @@
-/** Figma: Trash : Alternative · node 3367:20805 (mask asset from MCP) */
-const TRASH_ALTERNATIVE_MASK_URL =
-  "https://www.figma.com/api/mcp/asset/dbb07258-5915-4ada-ac46-2989974e4fd1";
+import { ASSETS } from "../assets/images";
 
 type IconTrashAlternativeProps = {
   className?: string;
@@ -16,8 +14,8 @@ export function IconTrashAlternative({ className }: IconTrashAlternativeProps) {
       aria-hidden
       className={`box-border shrink-0 bg-current ${className ?? ""}`}
       style={{
-        maskImage: `url("${TRASH_ALTERNATIVE_MASK_URL}")`,
-        WebkitMaskImage: `url("${TRASH_ALTERNATIVE_MASK_URL}")`,
+        maskImage: `url("${ASSETS.trashIcon}")`,
+        WebkitMaskImage: `url("${ASSETS.trashIcon}")`,
         maskSize: "contain",
         WebkitMaskSize: "contain",
         maskRepeat: "no-repeat",

@@ -1,17 +1,20 @@
+import { ASSETS } from "../assets/images";
 import SpaceLogotype from "../components/SpaceLogotype";
 import { RESUME_DRAFT_PAGE_SUBTITLE } from "../resumeDraftCopy";
 
-const imgImage = "https://www.figma.com/api/mcp/asset/68168bde-57f2-415e-8404-33ff7e57a0c4";
-const imgVector = "https://www.figma.com/api/mcp/asset/bd1cf65c-efc7-4c22-8db3-798125289681";
-const imgBefore = "https://www.figma.com/api/mcp/asset/fc2227aa-0761-41af-b890-36af1d21be53";
-const imgAfter = "https://www.figma.com/api/mcp/asset/f400e867-fab3-4e04-be21-e92c578c9c01";
-const imgBefore1 = "https://www.figma.com/api/mcp/asset/52a36848-d3fe-45f6-a34d-07fdce36e624";
-const imgAfter1 = "https://www.figma.com/api/mcp/asset/a8b5dc74-d21b-4379-a207-27c2f2a2d2bf";
-const imgVector1 = "https://www.figma.com/api/mcp/asset/3f8d18dc-f24f-453f-b55a-3750fc016b5e";
-const imgVector2 = "https://www.figma.com/api/mcp/asset/36b79087-d62b-41ab-aa9a-fd7616a1a98b";
-const imgVector3 = "https://www.figma.com/api/mcp/asset/4e1d74ac-510e-4e34-b628-a751b01cf87d";
-const imgVector4 = "https://www.figma.com/api/mcp/asset/bd416516-8a68-4d9b-ada7-2d3e17d7d316";
-const imgVector5 = "https://www.figma.com/api/mcp/asset/134c3b66-34c6-42d0-b757-78e1757ea399";
+const imgImage = ASSETS.avatar;
+const imgVector = ASSETS.backArrow;
+const imgBefore = ASSETS.tabBefore;
+const imgAfter = ASSETS.tabAfter;
+const imgBefore1 = ASSETS.tabBeforeInactive;
+const imgAfter1 = ASSETS.tabAfterInactive;
+const imgVector1 = ASSETS.iconSun;
+const imgVector2 = ASSETS.iconBell;
+const imgVector3 = ASSETS.iconPlane;
+const imgVector4 = ASSETS.generatingIllustration1;
+const imgVector5 = ASSETS.generatingIllustration2;
+const imgComponent = ASSETS.generatingSpinner;
+const imgComponent1 = ASSETS.generatingSpinnerDot;
 
 type ControlUserProps = {
   className?: string;
