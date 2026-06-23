@@ -1,6 +1,6 @@
 /** Figma: ni019tIFEDibMqnuKM005o · node 3352:16528 «Черновик резюме · редактор» */
 
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import GeneralInfoDrawer, { TEAM_MANAGEMENT_NONE_LABEL, type GeneralInfoSnapshot } from "./GeneralInfoDrawer";
 import { RESUME_DRAFT_PAGE_SUBTITLE } from "../resumeDraftCopy";
 import GradePerformanceMarks from "./GradePerformanceMarks";
@@ -65,102 +65,6 @@ function IconDownload({ className }: { className?: string }) {
   );
 }
 
-function IconClose({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-/** Figma 3374:8402 — подтверждение перед сохранением и переходом к отклику */
-function SaveResumeConfirmModal({
-  open,
-  onCancel,
-  onConfirm,
-}: {
-  open: boolean;
-  onCancel: () => void;
-  onConfirm: () => void;
-}) {
-  const titleId = useId();
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCancel();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel]);
-
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
-
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-[var(--hr-space-m,16px)]" data-node-id="3374:8402">
-      <button type="button" className="absolute inset-0 bg-black/[0.75]" aria-label="Закрыть" onClick={onCancel} />
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className="relative z-[201] w-full max-w-[600px] rounded-[var(--hr-border-radius-l,20px)] bg-[var(--hr-color-surface-100,white)] p-[var(--hr-space-xl,24px)] shadow-[0px_0px_1px_0px_var(--hr-effect-shadow,rgba(0,0,0,0.12)),0px_4px_12px_0px_var(--hr-effect-shadow,rgba(0,0,0,0.12))]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-[var(--hr-control-border-radius-inner,6px)] text-[rgba(0,0,0,0.55)] hover:bg-black/[0.04]"
-          aria-label="Закрыть"
-          onClick={onCancel}
-        >
-          <IconClose className="size-4" />
-        </button>
-        <div className="flex flex-col gap-[var(--hr-space-xl,24px)] pr-8">
-          <div className="flex flex-col gap-[var(--hr-space-xs,8px)]">
-            <h2
-              id={titleId}
-              className="font-sans text-[length:var(--hr-font-size-title-m,24px)] font-medium leading-[var(--hr-line-height-title-m,28px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))]"
-              style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
-            >
-              После сохранения нельзя будет вернуться к&nbsp;редактированию резюме
-            </h2>
-            <p
-              className="font-sans text-[length:var(--hr-font-size-body-m,16px)] font-normal leading-[var(--hr-line-height-body-m,24px)] text-[color:var(--hr-color-text-secondary,rgba(0,0,0,0.6))]"
-              style={{ fontFeatureSettings: "'lnum' 1, 'pnum' 1" }}
-            >
-              Файл с&nbsp;резюме скачается на&nbsp;ваше устройство, приложим его в&nbsp;отклик
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center justify-end gap-[var(--hr-space-xl,24px)]">
-            <button
-              type="button"
-              className="min-h-[40px] rounded-[var(--hr-border-radius-s,12px)] px-[var(--hr-space-m,16px)] font-sans text-[14px] font-normal leading-[var(--hr-line-height-body-s,20px)] text-[color:var(--hr-color-text-primary,rgba(0,0,0,0.88))] transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black/[0.04]"
-              onClick={onCancel}
-            >
-              Отмена
-            </button>
-            <button
-              type="button"
-              className="min-h-[40px] rounded-[var(--hr-border-radius-s,12px)] border-0 bg-[rgba(0,0,0,0.88)] px-[var(--hr-space-m,16px)] font-sans text-[14px] font-normal leading-[var(--hr-line-height-body-s,20px)] text-[rgba(255,255,255,0.96)] transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black active:bg-black"
-              onClick={onConfirm}
-            >
-              Сохранить и продолжить
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function SecondaryEditButton({ className, onClick }: { className?: string; onClick?: () => void }) {
   return (
     <button
@@ -209,7 +113,6 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
   const [personalDrawerOpen, setPersonalDrawerOpen] = useState(false);
   const [generalDrawerOpen, setGeneralDrawerOpen] = useState(false);
   const [workplaceDrawerId, setWorkplaceDrawerId] = useState<string | null>(null);
-  const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
   const [generalInfo, setGeneralInfo] = useState<GeneralInfoSnapshot>(() => ({
     positionTitle: "Разработчик Machine Learning",
     roleSubtitle: "Линейный руководитель",
@@ -358,15 +261,6 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
         onSave={handleSaveWorkplace}
         onDeleteWorkplace={handleDeleteWorkplaceFromDrawer}
       />
-      <SaveResumeConfirmModal
-        open={saveConfirmOpen}
-        onCancel={() => setSaveConfirmOpen(false)}
-        onConfirm={() => {
-          setSaveConfirmOpen(false);
-          onSaveAndDownload?.();
-        }}
-      />
-
       <div
         className="flex w-full shrink-0 items-center justify-center gap-[var(--hr-space-2-xl,32px)] px-[var(--hr-space-2-xl,32px)] py-[var(--hr-space-s,12px)]"
         data-node-id="3352:16529"
@@ -625,7 +519,7 @@ export default function ResumeEditorPage({ onSaveAndDownload, onDiscard }: Resum
             <button
               type="button"
               className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--hr-border-radius-s,12px)] border-0 bg-[rgba(0,0,0,0.88)] px-4 py-2.5 font-sans text-[14px] font-normal leading-[var(--hr-control-line-height,20px)] text-white transition-colors [font-feature-settings:'lnum'_1,'pnum'_1] hover:bg-black active:bg-black"
-              onClick={() => setSaveConfirmOpen(true)}
+              onClick={() => onSaveAndDownload?.()}
             >
               <IconDownload className="size-4 shrink-0 text-white" />
               {"Сохранить изменения и\u00A0скачать файл"}
